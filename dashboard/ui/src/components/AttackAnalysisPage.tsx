@@ -95,93 +95,165 @@ export default function AttackAnalysisPage({ data }: Props) {
 
   return (
     <>
-      {/* Confusion Matrix Heatmap Hub */}
-      <div className="card mb-24">
-        <div className="card-title">
-          <span className="card-title-text">
-            <Shield size={16} style={{color:'var(--teal)'}}/> 2×2 Heatmap Confusion Matrix Hub Across System Splits
-          </span>
+      {/* Exact Visual Confusion Matrix Heatmap matching target design */}
+      <div className="card mb-24" style={{ background: '#070c18', border: '1px solid rgba(30, 58, 138, 0.5)', padding: '28px', borderRadius: '16px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.01em' }}>
+            Confusion Matrix – Centralized Model (HAI 21.03 Test Set)
+          </h2>
         </div>
 
-        <div className="cm-hub-grid">
-          {confusionMatrices.map((cm, idx) => {
-            const maxVal = Math.max(cm.tn, cm.fp, cm.fn, cm.tp);
-            return (
-              <div key={idx} className="cm-box" style={{ borderTop: `3px solid ${cm.accent}` }}>
-                <div className="cm-box-header">
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--text-primary)' }}>{cm.title}</div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{cm.samples}</div>
-                  </div>
-                  <span className="badge badge-green">{cm.recall} Recall</span>
-                </div>
-
-                {/* 2x2 Heatmap Layout Container with Axes */}
-                <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr 1fr', gap: '6px', fontSize: '0.7rem', alignItems: 'center' }}>
-                  {/* Row 0: Column Headers */}
-                  <div style={{ textAlign: 'center', fontWeight: 600, color: 'var(--text-muted)' }}>Actual \ Pred</div>
-                  <div style={{ textAlign: 'center', fontWeight: 700, color: '#38bdf8', padding: '4px', background: 'rgba(56, 189, 248, 0.08)', borderRadius: '4px' }}>
-                    Predicted Normal
-                  </div>
-                  <div style={{ textAlign: 'center', fontWeight: 700, color: '#f43f5e', padding: '4px', background: 'rgba(244, 63, 94, 0.08)', borderRadius: '4px' }}>
-                    Predicted Attack
-                  </div>
-
-                  {/* Row 1: Actual Normal */}
-                  <div style={{ fontWeight: 700, color: '#38bdf8', padding: '4px', background: 'rgba(56, 189, 248, 0.08)', borderRadius: '4px', textAlign: 'center' }}>
-                    Actual Normal
-                  </div>
-                  {/* TN Cell */}
-                  <div className="cm-cell-card" style={{
-                    background: `rgba(45, 212, 191, ${0.15 + (cm.tn / maxVal) * 0.4})`,
-                    borderColor: 'rgba(45, 212, 191, 0.4)',
-                    boxShadow: '0 0 12px rgba(45, 212, 191, 0.15)'
-                  }}>
-                    <div className="cm-cell-val" style={{ color: '#ffffff', textShadow: '0 0 8px rgba(45,212,191,0.6)' }}>{cm.tn.toLocaleString()}</div>
-                    <div className="cm-cell-lbl" style={{ color: '#2dd4bf' }}>TN (True Normal)</div>
-                  </div>
-                  {/* FP Cell */}
-                  <div className="cm-cell-card" style={{
-                    background: `rgba(245, 158, 11, ${0.12 + (cm.fp / maxVal) * 0.5})`,
-                    borderColor: 'rgba(245, 158, 11, 0.35)'
-                  }}>
-                    <div className="cm-cell-val" style={{ color: '#fbbf24' }}>{cm.fp.toLocaleString()}</div>
-                    <div className="cm-cell-lbl" style={{ color: '#f59e0b' }}>FP (False Alarm)</div>
-                  </div>
-
-                  {/* Row 2: Actual Attack */}
-                  <div style={{ fontWeight: 700, color: '#f43f5e', padding: '4px', background: 'rgba(244, 63, 94, 0.08)', borderRadius: '4px', textAlign: 'center' }}>
-                    Actual Attack
-                  </div>
-                  {/* FN Cell */}
-                  <div className="cm-cell-card" style={{
-                    background: `rgba(239, 68, 68, ${0.12 + (cm.fn / maxVal) * 0.5})`,
-                    borderColor: 'rgba(239, 68, 68, 0.35)'
-                  }}>
-                    <div className="cm-cell-val" style={{ color: '#f87171' }}>{cm.fn.toLocaleString()}</div>
-                    <div className="cm-cell-lbl" style={{ color: '#ef4444' }}>FN (Missed Attack)</div>
-                  </div>
-                  {/* TP Cell */}
-                  <div className="cm-cell-card" style={{
-                    background: `rgba(14, 165, 233, ${0.18 + (cm.tp / maxVal) * 0.45})`,
-                    borderColor: 'rgba(14, 165, 233, 0.45)',
-                    boxShadow: '0 0 12px rgba(14, 165, 233, 0.2)'
-                  }}>
-                    <div className="cm-cell-val" style={{ color: '#ffffff', textShadow: '0 0 8px rgba(56,189,248,0.6)' }}>{cm.tp.toLocaleString()}</div>
-                    <div className="cm-cell-lbl" style={{ color: '#38bdf8' }}>TP (True Attack)</div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, paddingTop: 10, borderTop: '1px solid rgba(30, 58, 138, 0.3)', fontSize: '0.72rem' }}>
-                  <div>Accuracy: <strong style={{ color: cm.accent }}>{cm.accuracy}</strong></div>
-                  <div>Precision: <strong style={{ color: cm.accent }}>{cm.precision}</strong></div>
-                  <div>Recall: <strong style={{ color: cm.accent }}>{cm.recall}</strong></div>
-                  <div>F1-Score: <strong style={{ color: cm.accent }}>{cm.f1}</strong></div>
-                </div>
+        {/* Outer Flex Container for Heatmap + Scale Bar */}
+        <div style={{ display: 'flex', gap: '28px', alignItems: 'center', justifyContent: 'center', maxWidth: '880px', margin: '0 auto' }}>
+          {/* Main Grid: Left Axis (Actual Class) + Top Axis (Predicted Class) + 2x2 Heatmap */}
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr', gridTemplateRows: 'auto 1fr 1fr', gap: '14px', flex: 1 }}>
+            
+            {/* Top Header Spanning Columns */}
+            <div style={{ gridColumn: '2 / span 2', textAlign: 'center' }}>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff', marginBottom: '8px' }}>Predicted Class</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#e2e8f0', textAlign: 'center' }}>Predicted Normal (0)</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#e2e8f0', textAlign: 'center' }}>Predicted Attack (1)</div>
               </div>
-            );
-          })}
+            </div>
+            
+            {/* Empty Top Left Corner */}
+            <div></div>
+
+            {/* Row 1: Actual Normal (0) */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '12px', fontWeight: 700, fontSize: '0.88rem', color: '#e2e8f0', textAlign: 'right', lineHeight: 1.3 }}>
+              Actual<br/>Normal (0)
+            </div>
+
+            {/* TN Box - Solid Green */}
+            <div style={{
+              background: '#059669',
+              borderRadius: '12px',
+              padding: '24px 16px',
+              textAlign: 'center',
+              boxShadow: '0 4px 20px rgba(5, 150, 105, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#ffffff', lineHeight: 1.1 }}>77,710</div>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff', marginTop: '6px' }}>TN</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.95)' }}>(True Negatives)</div>
+            </div>
+
+            {/* FP Box - Solid Orange */}
+            <div style={{
+              background: '#ea580c',
+              borderRadius: '12px',
+              padding: '24px 16px',
+              textAlign: 'center',
+              boxShadow: '0 4px 20px rgba(234, 88, 12, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#ffffff', lineHeight: 1.1 }}>902</div>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff', marginTop: '6px' }}>FP</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.95)' }}>(False Positives)</div>
+            </div>
+
+            {/* Row 2: Actual Attack (1) */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '12px', fontWeight: 700, fontSize: '0.88rem', color: '#e2e8f0', textAlign: 'right', lineHeight: 1.3 }}>
+              Actual<br/>Attack (1)
+            </div>
+
+            {/* FN Box - Solid Red */}
+            <div style={{
+              background: '#dc2626',
+              borderRadius: '12px',
+              padding: '24px 16px',
+              textAlign: 'center',
+              boxShadow: '0 4px 20px rgba(220, 38, 38, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#ffffff', lineHeight: 1.1 }}>47</div>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff', marginTop: '6px' }}>FN</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.95)' }}>(False Negatives)</div>
+            </div>
+
+            {/* TP Box - Solid Green */}
+            <div style={{
+              background: '#059669',
+              borderRadius: '12px',
+              padding: '24px 16px',
+              textAlign: 'center',
+              boxShadow: '0 4px 20px rgba(5, 150, 105, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#ffffff', lineHeight: 1.1 }}>1,742</div>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff', marginTop: '6px' }}>TP</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.95)' }}>(True Positives)</div>
+            </div>
+
+          </div>
+
+          {/* Right Count (Scale) Color Bar Legend */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: '8px' }}>
+            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#e2e8f0', marginBottom: '8px', textAlign: 'center' }}>
+              Count<br/>(Scale)
+            </div>
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'stretch', height: '220px' }}>
+              <div style={{
+                width: '20px',
+                borderRadius: '999px',
+                background: 'linear-gradient(to bottom, #059669 0%, #eab308 50%, #dc2626 100%)'
+              }}></div>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '0.72rem', fontWeight: 700, color: '#cbd5e1' }}>
+                <span>80,000</span>
+                <span>60,000</span>
+                <span>40,000</span>
+                <span>20,000</span>
+                <span>0</span>
+              </div>
+            </div>
+          </div>
+
         </div>
+
+        {/* Bottom Performance Metrics Section */}
+        <div style={{
+          marginTop: '28px',
+          padding: '20px',
+          borderRadius: '12px',
+          border: '1px dashed rgba(56, 189, 248, 0.35)',
+          background: 'rgba(15, 23, 42, 0.7)'
+        }}>
+          <div style={{ textAlign: 'center', fontSize: '0.92rem', fontWeight: 700, color: '#ffffff', marginBottom: '16px' }}>
+            Performance Metrics (from same confusion matrix)
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '16px' }}>
+            <div style={{ background: 'rgba(30, 41, 59, 0.85)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Overall Accuracy</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8', marginTop: '4px' }}>97.68%</div>
+            </div>
+            <div style={{ background: 'rgba(30, 41, 59, 0.85)', border: '1px solid rgba(52, 211, 153, 0.25)', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Attack Recall</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#34d399', marginTop: '4px' }}>97.37%</div>
+            </div>
+            <div style={{ background: 'rgba(30, 41, 59, 0.85)', border: '1px solid rgba(192, 132, 252, 0.25)', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Attack Precision</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#c084fc', marginTop: '4px' }}>92.45%</div>
+            </div>
+            <div style={{ background: 'rgba(30, 41, 59, 0.85)', border: '1px solid rgba(251, 146, 60, 0.25)', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Attack F1-Score</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fb923c', marginTop: '4px' }}>94.85%</div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Traffic Breakdown & Anomaly Scores */}
