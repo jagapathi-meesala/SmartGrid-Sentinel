@@ -225,31 +225,78 @@ export default function AttackAnalysisPage({ data }: Props) {
 
         {/* Bottom Performance Metrics Section */}
         <div style={{
-          marginTop: '28px',
-          padding: '20px',
-          borderRadius: '12px',
-          border: '1px dashed rgba(56, 189, 248, 0.35)',
-          background: 'rgba(15, 23, 42, 0.7)'
+          marginTop: '32px',
+          padding: '24px',
+          borderRadius: '16px',
+          border: '1px dashed rgba(56, 189, 248, 0.4)',
+          background: 'rgba(11, 19, 43, 0.85)'
         }}>
-          <div style={{ textAlign: 'center', fontSize: '0.92rem', fontWeight: 700, color: '#ffffff', marginBottom: '16px' }}>
+          <div style={{ textAlign: 'center', fontSize: '1.05rem', fontWeight: 800, color: '#ffffff', marginBottom: '20px', letterSpacing: '-0.01em' }}>
             Performance Metrics (from same confusion matrix)
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '16px' }}>
-            <div style={{ background: 'rgba(30, 41, 59, 0.85)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Overall Accuracy</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8', marginTop: '4px' }}>97.68%</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '18px' }}>
+            {/* Accuracy Card */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(56, 189, 248, 0.12) 100%)',
+              border: '1px solid rgba(56, 189, 248, 0.5)',
+              borderRadius: '12px',
+              padding: '16px',
+              textAlign: 'center',
+              boxShadow: '0 4px 15px rgba(56, 189, 248, 0.15)'
+            }}>
+              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#38bdf8', background: 'rgba(56, 189, 248, 0.15)', padding: '2px 8px', borderRadius: '12px' }}>
+                (TN + TP) / Total
+              </span>
+              <div style={{ fontSize: '0.82rem', color: '#cbd5e1', fontWeight: 700, marginTop: '8px' }}>Overall Accuracy</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#38bdf8', marginTop: '6px', lineHeight: 1.1 }}>97.68%</div>
             </div>
-            <div style={{ background: 'rgba(30, 41, 59, 0.85)', border: '1px solid rgba(52, 211, 153, 0.25)', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Attack Recall</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#34d399', marginTop: '4px' }}>97.37%</div>
+
+            {/* Recall Card */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(52, 211, 153, 0.12) 100%)',
+              border: '1px solid rgba(52, 211, 153, 0.5)',
+              borderRadius: '12px',
+              padding: '16px',
+              textAlign: 'center',
+              boxShadow: '0 4px 15px rgba(52, 211, 153, 0.15)'
+            }}>
+              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#34d399', background: 'rgba(52, 211, 153, 0.15)', padding: '2px 8px', borderRadius: '12px' }}>
+                TP / (TP + FN)
+              </span>
+              <div style={{ fontSize: '0.82rem', color: '#cbd5e1', fontWeight: 700, marginTop: '8px' }}>Attack Recall</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#34d399', marginTop: '6px', lineHeight: 1.1 }}>97.37%</div>
             </div>
-            <div style={{ background: 'rgba(30, 41, 59, 0.85)', border: '1px solid rgba(192, 132, 252, 0.25)', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Attack Precision</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#c084fc', marginTop: '4px' }}>92.45%</div>
+
+            {/* Precision Card */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(192, 132, 252, 0.12) 100%)',
+              border: '1px solid rgba(192, 132, 252, 0.5)',
+              borderRadius: '12px',
+              padding: '16px',
+              textAlign: 'center',
+              boxShadow: '0 4px 15px rgba(192, 132, 252, 0.15)'
+            }}>
+              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#c084fc', background: 'rgba(192, 132, 252, 0.15)', padding: '2px 8px', borderRadius: '12px' }}>
+                TP / (TP + FP)
+              </span>
+              <div style={{ fontSize: '0.82rem', color: '#cbd5e1', fontWeight: 700, marginTop: '8px' }}>Attack Precision</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#c084fc', marginTop: '6px', lineHeight: 1.1 }}>92.45%</div>
             </div>
-            <div style={{ background: 'rgba(30, 41, 59, 0.85)', border: '1px solid rgba(251, 146, 60, 0.25)', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Attack F1-Score</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fb923c', marginTop: '4px' }}>94.85%</div>
+
+            {/* F1-Score Card */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.25) 0%, rgba(251, 146, 60, 0.12) 100%)',
+              border: '1px solid rgba(251, 146, 60, 0.5)',
+              borderRadius: '12px',
+              padding: '16px',
+              textAlign: 'center',
+              boxShadow: '0 4px 15px rgba(251, 146, 60, 0.15)'
+            }}>
+              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#fb923c', background: 'rgba(251, 146, 60, 0.15)', padding: '2px 8px', borderRadius: '12px' }}>
+                2 × (P × R) / (P + R)
+              </span>
+              <div style={{ fontSize: '0.82rem', color: '#cbd5e1', fontWeight: 700, marginTop: '8px' }}>Attack F1-Score</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#fb923c', marginTop: '6px', lineHeight: 1.1 }}>94.85%</div>
             </div>
           </div>
         </div>
