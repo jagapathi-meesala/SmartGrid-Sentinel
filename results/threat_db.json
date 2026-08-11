@@ -1,0 +1,60 @@
+{
+  "total_iocs": 5,
+  "indicators": [
+    {
+      "ioc_id": "IOC-2026-FDI-001",
+      "threat_type": "False Data Injection (FDI)",
+      "protocol": "IEC 61850 / GOOSE",
+      "severity": "HIGH",
+      "signature_pattern": "sensor_voltage_delta > 0.15",
+      "misp_category": "Payload delivery",
+      "description": "Manipulated busbar voltage telemetry attempting state estimation corruption.",
+      "confidence": 0.95,
+      "first_seen": "2026-08-01T00:00:00Z"
+    },
+    {
+      "ioc_id": "IOC-2026-DOS-002",
+      "threat_type": "Denial of Service (DoS)",
+      "protocol": "DNP3 / TCP",
+      "severity": "CRITICAL",
+      "signature_pattern": "packet_rate > 5000 pkts/sec",
+      "misp_category": "Network activity",
+      "description": "High-volume SYN flood targeting substation gateway router.",
+      "confidence": 0.98,
+      "first_seen": "2026-08-02T12:00:00Z"
+    },
+    {
+      "ioc_id": "IOC-2026-RPL-003",
+      "threat_type": "Replay Cyberattack",
+      "protocol": "Modbus TCP",
+      "severity": "HIGH",
+      "signature_pattern": "sequence_id_duplicate == True",
+      "misp_category": "Artifacts dropped",
+      "description": "Replay of previous valid breaker status frame to mask unmitigated fault.",
+      "confidence": 0.92,
+      "first_seen": "2026-08-03T08:30:00Z"
+    },
+    {
+      "ioc_id": "IOC-2026-CMD-004",
+      "threat_type": "Unauthorized Substation Command",
+      "protocol": "IEC 60870-5-104",
+      "severity": "CRITICAL",
+      "signature_pattern": "command_type == TRIP_OVERRIDE",
+      "misp_category": "External threat feed",
+      "description": "Unauthorized remote trip signal targeting Substation transformer relay.",
+      "confidence": 0.99,
+      "first_seen": "2026-08-05T14:15:00Z"
+    },
+    {
+      "ioc_id": "IOC-2026-FDI-005",
+      "threat_type": "False Data Injection (FDI)",
+      "protocol": "IEC 61850",
+      "severity": "CRITICAL",
+      "signature_pattern": "frequency_instability > 0.05 Hz",
+      "misp_category": "External feed update",
+      "description": "Grid frequency offset attack targeting AGC (Automatic Generation Control).",
+      "confidence": 0.96,
+      "first_seen": "2026-08-11T22:24:04.760847+00:00"
+    }
+  ]
+}

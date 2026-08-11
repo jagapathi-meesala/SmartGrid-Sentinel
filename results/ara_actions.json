@@ -1,0 +1,74 @@
+[
+  {
+    "tick": 10,
+    "substation": "SUB-A",
+    "from_state": "normal",
+    "to_state": "isolated",
+    "reason": "risk 1.000 exceeded threshold 0.276",
+    "evidence": {
+      "predicted_class": "Attack",
+      "confidence": 1.0,
+      "risk": 0.9999999403953552
+    },
+    "timestamp": "2026-08-11T22:24:04.679031+00:00"
+  },
+  {
+    "tick": 13,
+    "substation": "SUB-A",
+    "from_state": "isolated",
+    "to_state": "normal",
+    "reason": "3 consecutive clean ticks",
+    "evidence": {
+      "clean_streak": 3
+    },
+    "timestamp": "2026-08-11T22:24:04.679582+00:00"
+  },
+  {
+    "tick": 15,
+    "substation": "SUB-C",
+    "from_state": "normal",
+    "to_state": "isolated",
+    "reason": "risk 1.000 exceeded threshold 0.276",
+    "evidence": {
+      "predicted_class": "Attack",
+      "confidence": 1.0,
+      "risk": 0.9999999403953552
+    },
+    "timestamp": "2026-08-11T22:24:04.679905+00:00"
+  },
+  {
+    "tick": 18,
+    "substation": "SUB-C",
+    "from_state": "isolated",
+    "to_state": "normal",
+    "reason": "3 consecutive clean ticks",
+    "evidence": {
+      "clean_streak": 3
+    },
+    "timestamp": "2026-08-11T22:24:04.680183+00:00"
+  },
+  {
+    "tick": 25,
+    "substation": "SUB-A",
+    "from_state": "normal",
+    "to_state": "isolated",
+    "reason": "risk 1.000 exceeded threshold 0.276",
+    "evidence": {
+      "predicted_class": "Attack",
+      "confidence": 1.0,
+      "risk": 0.9999999403953552
+    },
+    "timestamp": "2026-08-11T22:24:04.680513+00:00"
+  },
+  {
+    "tick": 28,
+    "substation": "SUB-A",
+    "from_state": "isolated",
+    "to_state": "normal",
+    "reason": "3 consecutive clean ticks",
+    "evidence": {
+      "clean_streak": 3
+    },
+    "timestamp": "2026-08-11T22:24:04.680818+00:00"
+  }
+]

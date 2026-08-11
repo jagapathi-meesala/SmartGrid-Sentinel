@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data & Datasets
+dataset/hai-21.03/*.csv
+dataset/hai-21.03/*.zip
+!dataset/hai-21.03/.gitkeep
+
+# Environments & Virtualenvs
+.venv/
+venv/
+ENV/
+env/
+
+# Node & UI build
+node_modules/
+dashboard/ui/node_modules/
+dashboard/ui/dist/
+
+# Logs & Temporary files
+logs/*.log
+*.log
+.DS_Store
+
+# PyTorch saved weights (optional large binaries)
+*.pt
