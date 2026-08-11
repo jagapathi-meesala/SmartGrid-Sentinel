@@ -7,6 +7,11 @@ __pycache__/
 dataset/hai-21.03/*.csv
 dataset/hai-21.03/*.zip
 !dataset/hai-21.03/.gitkeep
+processed_data/*.csv
+processed_data/*.npz
+processed_data/client_A/
+processed_data/client_B/
+processed_data/client_C/
 
 # Environments & Virtualenvs
 .venv/

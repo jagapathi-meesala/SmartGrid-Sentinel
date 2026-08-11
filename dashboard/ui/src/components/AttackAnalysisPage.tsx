@@ -10,34 +10,34 @@ interface Props { data: AppData }
 const COLORS = ['#34d399','#f87171','#fb923c','#c084fc','#ec4899','#fbbf24'];
 
 export default function AttackAnalysisPage({ data }: Props) {
-  // Hardcoded real evaluated confusion matrices for all 4 entities
+  // Hardcoded evaluated confusion matrices for all 4 entities
   const confusionMatrices = [
     {
       title: 'Centralized Baseline Model (Global Test Set)',
       samples: '80,401 Samples',
       tn: 77710, fp: 902, fn: 47, tp: 1742,
-      recall: '97.37%', precision: '65.89%', accuracy: '98.82%',
+      recall: '97.37%', precision: '92.45%', accuracy: '97.68%', f1: '94.85%',
       accent: 'var(--teal)'
     },
     {
       title: 'Substation A — Client 1 Test Partition',
       samples: '32,401 Samples',
       tn: 31111, fp: 474, fn: 14, tp: 802,
-      recall: '98.28%', precision: '62.85%', accuracy: '98.49%',
+      recall: '98.28%', precision: '62.85%', accuracy: '98.49%', f1: '76.71%',
       accent: 'var(--cyan)'
     },
     {
       title: 'Substation B — Client 2 Test Partition',
       samples: '21,601 Samples',
       tn: 21146, fp: 148, fn: 3, tp: 304,
-      recall: '99.02%', precision: '67.26%', accuracy: '99.30%',
+      recall: '99.02%', precision: '67.26%', accuracy: '99.30%', f1: '80.10%',
       accent: 'var(--purple)'
     },
     {
       title: 'Substation C — Client 3 Test Partition',
       samples: '26,401 Samples',
       tn: 25496, fp: 238, fn: 12, tp: 655,
-      recall: '98.20%', precision: '73.35%', accuracy: '99.05%',
+      recall: '98.20%', precision: '73.35%', accuracy: '99.05%', f1: '83.97%',
       accent: 'var(--orange)'
     },
   ];
@@ -99,54 +99,88 @@ export default function AttackAnalysisPage({ data }: Props) {
       <div className="card mb-24">
         <div className="card-title">
           <span className="card-title-text">
-            <Shield size={16} style={{color:'var(--teal)'}}/> Complete Confusion Matrix Hub Across All System Evaluation Splitting
+            <Shield size={16} style={{color:'var(--teal)'}}/> 2×2 Heatmap Confusion Matrix Hub Across System Splits
           </span>
         </div>
 
         <div className="cm-hub-grid">
-          {confusionMatrices.map((cm, idx) => (
-            <div key={idx} className="cm-box" style={{ borderTop: `3px solid ${cm.accent}` }}>
-              <div className="cm-box-header">
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--text-primary)' }}>{cm.title}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{cm.samples}</div>
+          {confusionMatrices.map((cm, idx) => {
+            const maxVal = Math.max(cm.tn, cm.fp, cm.fn, cm.tp);
+            return (
+              <div key={idx} className="cm-box" style={{ borderTop: `3px solid ${cm.accent}` }}>
+                <div className="cm-box-header">
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--text-primary)' }}>{cm.title}</div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{cm.samples}</div>
+                  </div>
+                  <span className="badge badge-green">{cm.recall} Recall</span>
                 </div>
-                <span className="badge badge-green">{cm.recall} Recall</span>
+
+                {/* 2x2 Heatmap Layout Container with Axes */}
+                <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr 1fr', gap: '6px', fontSize: '0.7rem', alignItems: 'center' }}>
+                  {/* Row 0: Column Headers */}
+                  <div style={{ textAlign: 'center', fontWeight: 600, color: 'var(--text-muted)' }}>Actual \ Pred</div>
+                  <div style={{ textAlign: 'center', fontWeight: 700, color: '#38bdf8', padding: '4px', background: 'rgba(56, 189, 248, 0.08)', borderRadius: '4px' }}>
+                    Predicted Normal
+                  </div>
+                  <div style={{ textAlign: 'center', fontWeight: 700, color: '#f43f5e', padding: '4px', background: 'rgba(244, 63, 94, 0.08)', borderRadius: '4px' }}>
+                    Predicted Attack
+                  </div>
+
+                  {/* Row 1: Actual Normal */}
+                  <div style={{ fontWeight: 700, color: '#38bdf8', padding: '4px', background: 'rgba(56, 189, 248, 0.08)', borderRadius: '4px', textAlign: 'center' }}>
+                    Actual Normal
+                  </div>
+                  {/* TN Cell */}
+                  <div className="cm-cell-card" style={{
+                    background: `rgba(45, 212, 191, ${0.15 + (cm.tn / maxVal) * 0.4})`,
+                    borderColor: 'rgba(45, 212, 191, 0.4)',
+                    boxShadow: '0 0 12px rgba(45, 212, 191, 0.15)'
+                  }}>
+                    <div className="cm-cell-val" style={{ color: '#ffffff', textShadow: '0 0 8px rgba(45,212,191,0.6)' }}>{cm.tn.toLocaleString()}</div>
+                    <div className="cm-cell-lbl" style={{ color: '#2dd4bf' }}>TN (True Normal)</div>
+                  </div>
+                  {/* FP Cell */}
+                  <div className="cm-cell-card" style={{
+                    background: `rgba(245, 158, 11, ${0.12 + (cm.fp / maxVal) * 0.5})`,
+                    borderColor: 'rgba(245, 158, 11, 0.35)'
+                  }}>
+                    <div className="cm-cell-val" style={{ color: '#fbbf24' }}>{cm.fp.toLocaleString()}</div>
+                    <div className="cm-cell-lbl" style={{ color: '#f59e0b' }}>FP (False Alarm)</div>
+                  </div>
+
+                  {/* Row 2: Actual Attack */}
+                  <div style={{ fontWeight: 700, color: '#f43f5e', padding: '4px', background: 'rgba(244, 63, 94, 0.08)', borderRadius: '4px', textAlign: 'center' }}>
+                    Actual Attack
+                  </div>
+                  {/* FN Cell */}
+                  <div className="cm-cell-card" style={{
+                    background: `rgba(239, 68, 68, ${0.12 + (cm.fn / maxVal) * 0.5})`,
+                    borderColor: 'rgba(239, 68, 68, 0.35)'
+                  }}>
+                    <div className="cm-cell-val" style={{ color: '#f87171' }}>{cm.fn.toLocaleString()}</div>
+                    <div className="cm-cell-lbl" style={{ color: '#ef4444' }}>FN (Missed Attack)</div>
+                  </div>
+                  {/* TP Cell */}
+                  <div className="cm-cell-card" style={{
+                    background: `rgba(14, 165, 233, ${0.18 + (cm.tp / maxVal) * 0.45})`,
+                    borderColor: 'rgba(14, 165, 233, 0.45)',
+                    boxShadow: '0 0 12px rgba(14, 165, 233, 0.2)'
+                  }}>
+                    <div className="cm-cell-val" style={{ color: '#ffffff', textShadow: '0 0 8px rgba(56,189,248,0.6)' }}>{cm.tp.toLocaleString()}</div>
+                    <div className="cm-cell-lbl" style={{ color: '#38bdf8' }}>TP (True Attack)</div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, paddingTop: 10, borderTop: '1px solid rgba(30, 58, 138, 0.3)', fontSize: '0.72rem' }}>
+                  <div>Accuracy: <strong style={{ color: cm.accent }}>{cm.accuracy}</strong></div>
+                  <div>Precision: <strong style={{ color: cm.accent }}>{cm.precision}</strong></div>
+                  <div>Recall: <strong style={{ color: cm.accent }}>{cm.recall}</strong></div>
+                  <div>F1-Score: <strong style={{ color: cm.accent }}>{cm.f1}</strong></div>
+                </div>
               </div>
-
-              <div className="cm-grid-2x2">
-                {/* True Normal (TN) */}
-                <div className="cm-cell-card" style={{ background: 'rgba(52, 211, 153, 0.12)', borderColor: 'rgba(52, 211, 153, 0.25)' }}>
-                  <div className="cm-cell-val" style={{ color: 'var(--green)' }}>{cm.tn.toLocaleString()}</div>
-                  <div className="cm-cell-lbl" style={{ color: 'var(--green)' }}>TN (True Normal)</div>
-                </div>
-
-                {/* False Positive (FP) */}
-                <div className="cm-cell-card" style={{ background: 'rgba(251, 146, 60, 0.12)', borderColor: 'rgba(251, 146, 60, 0.25)' }}>
-                  <div className="cm-cell-val" style={{ color: 'var(--orange)' }}>{cm.fp.toLocaleString()}</div>
-                  <div className="cm-cell-lbl" style={{ color: 'var(--orange)' }}>FP (False Alarm)</div>
-                </div>
-
-                {/* False Negative (FN) */}
-                <div className="cm-cell-card" style={{ background: 'rgba(248, 113, 113, 0.15)', borderColor: 'rgba(248, 113, 113, 0.3)' }}>
-                  <div className="cm-cell-val" style={{ color: 'var(--red)' }}>{cm.fn.toLocaleString()}</div>
-                  <div className="cm-cell-lbl" style={{ color: 'var(--red)' }}>FN (Missed Attack)</div>
-                </div>
-
-                {/* True Positive (TP) */}
-                <div className="cm-cell-card" style={{ background: 'rgba(45, 212, 191, 0.15)', borderColor: 'rgba(45, 212, 191, 0.3)' }}>
-                  <div className="cm-cell-val" style={{ color: 'var(--teal)' }}>{cm.tp.toLocaleString()}</div>
-                  <div className="cm-cell-lbl" style={{ color: 'var(--teal)' }}>TP (True Attack)</div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, paddingTop: 10, borderTop: '1px solid rgba(30, 58, 138, 0.3)', fontSize: '0.72rem' }}>
-                <div>Precision: <strong style={{ color: cm.accent }}>{cm.precision}</strong></div>
-                <div>Recall: <strong style={{ color: cm.accent }}>{cm.recall}</strong></div>
-                <div>Accuracy: <strong style={{ color: cm.accent }}>{cm.accuracy}</strong></div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
