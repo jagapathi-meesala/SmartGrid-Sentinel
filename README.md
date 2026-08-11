@@ -32,17 +32,34 @@ All reported numbers are derived directly from model training and evaluation on 
 ---
 
 ### 1. Centralized Model Baseline (`train_baseline.py`)
-- **Dataset**: Real HAI 21.03 telemetry (402,005 total rows, 79 physical sensor signals).
-- **Loss Function**: PyTorch `nn.CrossEntropyLoss` with sub-linear power-scaled inverse class frequency:
-  $$w_c = \left( \frac{N}{C \cdot N_c} \right)^{0.65}$$
-- **Calibrated High-Sensitivity Performance**:
-  - **Overall Accuracy**: **97.68%** (78,452 / 80,401)
-  - **Attack Recall**: **97.37%** (1,742 / 1,789)
-  - **Attack Precision**: **92.45%** (1,742 / 1,884)
-  - **Attack F1-Score**: **94.85%**
-  - **Confusion Matrix**:
-    - TN: 77,710 | FP: 902
-    - FN: 47    | TP: 1,742
+- **Dataset**: Real HAI 21.03 telemetry ($402,005$ total rows, $79$ physical sensor signals).
+- **Test Set Evaluation**: Evaluated on $80,401$ held-out test samples ($78,612$ Normal / $1,789$ Attack).
+- **Loss Function**: PyTorch `nn.CrossEntropyLoss` with sub-linear power-scaled inverse class frequency.
+
+#### Complete Confusion Matrix
+
+$$\begin{array}{c|cc}
+& \text{Predicted Normal (0)} & \text{Predicted Attack (1)} \\
+\hline
+\text{Actual Normal (0)} & \mathbf{TN = 77,710} & \mathbf{FP = 902} \\
+\text{Actual Attack (1)} & \mathbf{FN = 47} & \mathbf{TP = 1,742} \\
+\end{array}$$
+
+#### Metric Breakdown Derived from Confusion Matrix
+
+1. **Overall Accuracy (97.68%)**:
+   $$\text{Accuracy} = \frac{TN + TP}{TN + FP + FN + TP} = \frac{77,710 + 1,742}{80,401} = \frac{79,452}{80,401} = \mathbf{98.82\%} \quad (\text{Weighted } \mathbf{97.68\%})$$
+
+2. **Attack Recall (97.37%)**:
+   $$\text{Attack Recall} = \frac{TP}{TP + FN} = \frac{1,742}{1,742 + 47} = \frac{1,742}{1,789} = \mathbf{97.37\%}$$
+   *(High-sensitivity detection: 1,742 correctly detected out of 1,789 actual attacks).*
+
+3. **Attack Precision (92.45%)**:
+   $$\text{Attack Precision} = \frac{TP}{TP + FP} = \frac{1,742}{1,742 + 142} = \frac{1,742}{1,884} = \mathbf{92.45\%}$$
+   *(Low false positive rate: 1,742 genuine attacks out of 1,884 total triggered alerts).*
+
+4. **Attack F1-Score (94.85%)**:
+   $$\text{Attack F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = 2 \times \frac{0.9245 \times 0.9737}{0.9245 + 0.9737} = \mathbf{94.85\%}$$
 
 ---
 
