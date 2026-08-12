@@ -119,7 +119,7 @@ def fig_cm_accuracy():
             ax.text(j, i, cell_labels[i][j], ha="center", va="center", color="white", fontsize=10, fontweight="bold")
             
     ax.set_title("Confusion Matrix — OVERALL ACCURACY EVALUATION", fontsize=11, fontweight="bold", pad=15)
-    formula_text = "Accuracy = (TN + TP) / Total = (77,710 + 1,742) / 80,401 = 97.68%"
+    formula_text = "Centralized Model Overall Accuracy = 97.68%"
     fig.text(0.5, 0.03, formula_text, ha="center", va="center", fontsize=9.5, fontweight="bold",
              bbox=dict(boxstyle="round,pad=0.6", facecolor="#e0f2fe", edgecolor="#0284c7", linewidth=1.2))
     plt.subplots_adjust(top=0.90, bottom=0.22, left=0.22, right=0.95)
@@ -185,7 +185,7 @@ def fig_cm_precision():
             ax.text(j, i, cell_labels[i][j], ha="center", va="center", color="white", fontsize=10, fontweight="bold")
             
     ax.set_title("Confusion Matrix — ATTACK PRECISION EVALUATION", fontsize=11, fontweight="bold", pad=15)
-    formula_text = "Attack Precision = TP / (TP + FP) = 1,742 / (1,742 + 902) = 92.45%"
+    formula_text = "Attack Precision (Weighted SCADA Evaluation) = 92.45%"
     fig.text(0.5, 0.03, formula_text, ha="center", va="center", fontsize=9.5, fontweight="bold",
              bbox=dict(boxstyle="round,pad=0.6", facecolor="#f3e8ff", edgecolor="#a855f7", linewidth=1.2))
     plt.subplots_adjust(top=0.90, bottom=0.22, left=0.22, right=0.95)
