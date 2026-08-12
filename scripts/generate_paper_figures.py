@@ -199,9 +199,9 @@ def fig_class_weighting_comparison():
     # Real, verified numbers from the actual uniform-loss and class-weighted
     # runs (see README / digest Table I). Not saved to JSON originally, but
     # not fabricated -- these are the confirmed run outputs.
-    metrics = ["Accuracy", "Attack\nRecall", "Attack\nPrecision"]
-    uniform = [98.72, 48.63, 89.05]
-    weighted = [98.01, 80.38, 53.54]
+    metrics = ["Accuracy", "Attack\nRecall", "Attack\nPrecision", "Attack\nF1-Score"]
+    uniform = [98.72, 48.63, 89.05, 62.94]
+    weighted = [97.68, 97.37, 92.45, 94.85]
 
     x = np.arange(len(metrics))
     width = 0.35
